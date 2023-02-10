@@ -31,7 +31,7 @@ function init() {
         '', '', '',
         '', '', ''
     ]
-
+    stateTurn = 'X'
     render()
 }
 
@@ -44,9 +44,9 @@ function render() {
 
 function handleTurn(e) {
 
+    if (e.target.textContent === 'X' || e.target.textContent === 'O') return
     if (win) return
 
-    if (e.target.textContent === 'X' || e.target === 'O') return
     board[squares.findIndex(square => square === e.target)] = stateTurn
 
     let randomPlaceFound = false
