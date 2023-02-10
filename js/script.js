@@ -43,13 +43,30 @@ function render() {
 }
 
 function handleTurn(e) {
+
+    if (win) return
+
+    if (e.target.textContent === 'X' || e.target === 'O') return
     board[squares.findIndex(square => square === e.target)] = stateTurn
-    stateTurn = stateTurn === 'X' ? 'O' : 'X'
+
+    let randomPlaceFound = false
+    while (!randomPlaceFound || !board.includes('')) {
+        if (win) break
+        const randomIdx = Math.floor(Math.random() * 9)
+        console.log('Board:', board[randomIdx])
+        if (board[randomIdx] === 'X' || board[randomIdx] === 'O') {
+            continue
+        } else {
+            board[randomIdx] = 'O'
+            randomPlaceFound = true
+        }
+    }
+    // stateTurn = stateTurn === 'X' ? 'O' : 'X'
 
     win = getWinner()
 
     render()
-    console.log(board)
+    // console.log(board)
 }
 
 function getWinner() {
@@ -63,3 +80,6 @@ function getWinner() {
 }
 
 init()
+
+// Players can't change other player previous box
+// Added AI
