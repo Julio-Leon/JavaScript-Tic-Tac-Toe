@@ -40,4 +40,8 @@ function handleTurn(e) {
     console.log(board)
 }
 
+function getWinner() {
+    
+}
+
 init()
