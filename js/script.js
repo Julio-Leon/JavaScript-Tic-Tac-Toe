@@ -14,6 +14,7 @@ const winningCombinations = [
 let stateBoard
 let stateTurn = 'X'
 let win
+let stateToggle = false
 
 /*----- cahed element references -----*/
 const squares = Array.from(document.querySelectorAll('#board div'))
@@ -22,6 +23,10 @@ const messages = document.querySelector('h2')
 /*----- event listeners -----*/
 document.querySelector('#board').addEventListener('click', handleTurn)
 document.querySelector('#reset-button').addEventListener('click', init)
+document.querySelector('#toggle').addEventListener('click', () => {
+    init()
+    stateToggle = !stateToggle
+})
 
 /*----- functions -----*/
 
@@ -49,24 +54,25 @@ function handleTurn(e) {
 
     board[squares.findIndex(square => square === e.target)] = stateTurn
 
-    let randomPlaceFound = false
-    while (!randomPlaceFound || !board.includes('')) {
-        if (win) break
-        const randomIdx = Math.floor(Math.random() * 9)
-        console.log('Board:', board[randomIdx])
-        if (board[randomIdx] === 'X' || board[randomIdx] === 'O') {
-            continue
-        } else {
-            board[randomIdx] = 'O'
-            randomPlaceFound = true
+    if (stateToggle) {
+        let randomPlaceFound = false
+        while (!randomPlaceFound || !board.includes('')) {
+            if (win) break
+            const randomIdx = Math.floor(Math.random() * 9)
+            if (board[randomIdx] === 'X' || board[randomIdx] === 'O') {
+                continue
+            } else {
+                board[randomIdx] = 'O'
+                randomPlaceFound = true
+            }
         }
+    } else {
+        stateTurn = stateTurn === 'X' ? 'O' : 'X'
     }
-    // stateTurn = stateTurn === 'X' ? 'O' : 'X'
 
     win = getWinner()
 
     render()
-    // console.log(board)
 }
 
 function getWinner() {
